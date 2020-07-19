@@ -1,6 +1,9 @@
 # specify the node base image with your desired version node:<version>
 FROM node:12.16.3-buster-slim AS umbrel-middleware-builder
 
+# Install tools
+RUN apt-get install -y --no-install-recommends python3
+
 # Create app directory
 WORKDIR /app
 
