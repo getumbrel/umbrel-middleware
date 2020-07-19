@@ -2,7 +2,12 @@
 FROM node:12.16.3-buster-slim AS umbrel-middleware-builder
 
 # Install tools
-RUN apt-get update --no-install-recommends && apt-get install -y --no-install-recommends python3
+# Install Tools
+RUN apt-get update --no-install-recommends \
+  && apt-get install -y --no-install-recommends build-essential g++ \
+  && apt-get install -y --no-install-recommends rsync \
+  && apt-get install -y --no-install-recommends make \
+  && apt-get install -y --no-install-recommends python3 
 
 # Create app directory
 WORKDIR /app
@@ -29,3 +34,4 @@ COPY --from=umbrel-middleware-builder /app .
 
 EXPOSE 3006
 CMD [ "npm", "start" ]
+
