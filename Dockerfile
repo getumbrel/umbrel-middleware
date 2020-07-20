@@ -1,27 +1,33 @@
-# specify the node base image with your desired version node:<version>
+# Build stage
 FROM node:12.16.3-buster-slim AS umbrel-middleware-builder
 
 # Install tools
 RUN apt-get update --no-install-recommends \
+  && apt-get install -y --no-install-recommends build-essential \
+  && apt-get install -y --no-install-recommends g++ \
+  && apt-get install -y --no-install-recommends make \
   && apt-get install -y --no-install-recommends python3 
 
-# Create app directory
+# Create and switch to /app directory
 WORKDIR /app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
+# Copy both package.json AND package-lock.json
 COPY package*.json ./
 
-# install dependencies
+# Install dependencies
 RUN npm install --only=production
 
-# copy project files and folders to the current working directory (i.e. '/app' folder)
-COPY . .
+# Copy project files and folders to the /app directory
+COPY . /app
 
+# Final image
 FROM node:12.16.3-buster-slim AS umbrel-middleware
 
-COPY --from=umbrel-middleware-builder /app .
+# Copy built code from build stage to /app directory
+COPY --from=umbrel-middleware-builder /app /app
+
+# Switch to /app directory
+WORKDIR /app
 
 EXPOSE 3006
 CMD [ "npm", "start" ]
