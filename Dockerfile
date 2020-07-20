@@ -3,9 +3,6 @@ FROM node:12.16.3-buster-slim AS umbrel-middleware-builder
 
 # Install tools
 RUN apt-get update --no-install-recommends \
-  && apt-get install -y --no-install-recommends build-essential \
-  && apt-get install -y --no-install-recommends g++ \
-  && apt-get install -y --no-install-recommends make \
   && apt-get install -y --no-install-recommends python3 
 
 # Create app directory
