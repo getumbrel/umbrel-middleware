@@ -29,4 +29,3 @@ WORKDIR /app
 
 EXPOSE 3006
 CMD [ "npm", "start" ]
-
