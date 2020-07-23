@@ -16,7 +16,7 @@ COPY package*.json ./
 RUN npm install --only=production
 
 # Copy project files and folders to the /app directory
-COPY . /app
+COPY . .
 
 # Final image
 FROM node:12.16.3-buster-slim AS umbrel-middleware
