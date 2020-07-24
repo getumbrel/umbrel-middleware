@@ -9,8 +9,7 @@ RUN apt-get update \
 # Create and switch to /app directory
 WORKDIR /app
 
-# Copy both package.json AND package-lock.json
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
 # Install dependencies
 RUN npm install --only=production
@@ -27,5 +26,5 @@ COPY --from=umbrel-middleware-builder /app /app
 # Switch to /app directory
 WORKDIR /app
 
-EXPOSE 3006
+EXPOSE 3005
 CMD [ "npm", "start" ]
