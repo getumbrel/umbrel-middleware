@@ -39,7 +39,7 @@ Set the following environment variables directly or by placing them in `.env` fi
 | `RPC_USER` | `bitcoind` RPC username  |  |
 | `RPC_PASSWORD` | `bitcoind` RPC password |  |
 | `LND_HOST` | IP or domain where `lnd` RPC is listening | `127.0.0.1` |
-| `TLS_FILE` | Path to `lnd`'s TLS certificate | `/lnd/tls.cert` |
+| `TLS_FILE` | Path to `lnd`'s TLS certificate | Defaults to (This is the pathname in docker): `/lnd/tls.cert` |
 | `LND_PORT` | Port where `lnd` RPC is listening | `10009` |
 | `LND_NETWORK` | The chain `bitcoind` is running on (mainnet, testnet, regtest, simnet) | `mainnet` |
 | `MACAROON_DIR` | Path to `lnd`'s `admin.macroon` file | Defaults to (This is the pathname in docker): `/lnd/data/chain/bitcoin/mainnet/admin.macaroon` |
