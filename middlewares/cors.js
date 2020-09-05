@@ -1,11 +1,12 @@
 const corsOptions = {
   origin: (origin, callback) => {
+    console.log(process.env.DEVICE_HOSTS);
     const whitelist = [
       'http://localhost:3000',
       'http://localhost:8080',
       'http://localhost',
       'http://umbrel.local',
-      ...process.env.DEVICE_HOSTS
+      ...process.env.DEVICE_HOSTS.split(",")
     ];
 
     if (whitelist.indexOf(origin) !== -1 || !origin) {
