@@ -1,6 +1,5 @@
 const corsOptions = {
   origin: (origin, callback) => {
-    console.log(process.env.DEVICE_HOSTS);
     const whitelist = [
       'http://localhost:3000',
       'http://localhost:8080',
