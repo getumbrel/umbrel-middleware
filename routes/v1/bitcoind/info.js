@@ -9,7 +9,11 @@ router.get('/mempool', auth.jwt, safeHandler((req, res) =>
   bitcoind.getMempoolInfo()
     .then(mempool => res.json(mempool.result))
 ));
+router.get('/circulation', auth.jwt, safeHandler((req,res) =>
+  bitcoind.getTxOutsetInfo()
+    .then(circulation => res.json(circulation.result))
 
+));
 router.get('/addresses', auth.jwt, safeHandler((req, res) =>
   networkLogic.getBitcoindAddresses()
     .then(addresses => res.json(addresses))

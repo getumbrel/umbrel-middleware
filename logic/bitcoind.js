@@ -63,7 +63,9 @@ async function getMaxSyncHeader() {
 async function getMempoolInfo() {
   return await bitcoindService.getMempoolInfo();
 }
-
+async function getTxOutsetInfo() {
+  return await bitcoindService.getTxOutsetInfo();
+}
 async function getLocalSyncInfo() {
   const info = await bitcoindService.getBlockChainInfo();
 
@@ -220,6 +222,7 @@ async function nodeStatusSummary() {
 }
 
 module.exports = {
+  getTxOutsetInfo,
   getBlockHash,
   getTransaction,
   getBlock,
