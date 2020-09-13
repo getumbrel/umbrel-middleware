@@ -4,13 +4,13 @@ install-prehook:
 	cp pre-commit .git/hooks/
 	
 install: install-prehook
-	npm install
+	yarn install --production
 
 install-dev:
-	npm install --dev
+	yarn install --production=false
 
 lint:
 	eslint .
 
 test:
-	npm test
+	yarn test
