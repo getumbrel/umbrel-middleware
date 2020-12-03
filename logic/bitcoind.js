@@ -71,8 +71,7 @@ async function getLocalSyncInfo() {
   var chain = blockChainInfo.chain;
   var blockCount = blockChainInfo.blocks;
   var headerCount = blockChainInfo.headers; 
-
-  var percentSynced = (blockChainInfo.verificationprogress * 100).toFixed(2);
+  var percentSynced = blockChainInfo.verificationprogress;
 
   return {
     chain: chain,
