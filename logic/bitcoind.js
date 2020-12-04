@@ -71,11 +71,11 @@ async function getLocalSyncInfo() {
   var chain = blockChainInfo.chain;
   var blockCount = blockChainInfo.blocks;
   var headerCount = blockChainInfo.headers; 
-  var percentSynced = blockChainInfo.verificationprogress;
+  var percent = blockChainInfo.verificationprogress;
 
   return {
-    chain: chain,
-    percent: percentSynced,
+    chain,
+    percent,
     currentBlock: blockCount,
     headerCount: headerCount // eslint-disable-line object-shorthand,
   };
