@@ -1,6 +1,6 @@
 /* eslint-disable camelcase, max-lines */
-const grpc = require('grpc');
-const camelizeKeys = require('camelize-keys');
+var grpc = require('@grpc/grpc-js');
+const protoLoader = require('@grpc/proto-loader');
 
 const diskService = require('services/disk');
 const LndError = require('models/errors.js').LndError;
@@ -23,8 +23,8 @@ if (process.env.MACAROON_DIR) {
 }
 
 // TODO move this to volume
-const lnrpcDescriptor = grpc.load(PROTO_FILE);
-const lnrpc = lnrpcDescriptor.lnrpc;
+const packageDefinition = protoLoader.loadSync('rpc.proto', {});
+const lnrpc = grpc.loadPackageDefinition(packageDefinition).lnrpc;
 
 const DEFAULT_RECOVERY_WINDOW = 250;
 
@@ -68,7 +68,7 @@ async function promiseify(rpcObj, rpcFn, payload, description) {
         if (error) {
           reject(new LndError(`Unable to ${description}`, error));
         } else {
-          resolve(camelizeKeys(grpcResponse, '_'));
+          resolve(grpcResponse);
         }
       });
     } catch (error) {

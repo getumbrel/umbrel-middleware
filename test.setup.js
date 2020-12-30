@@ -9,7 +9,7 @@ process.env.JWT_PUBLIC_KEY = '2d2d2d2d2d424547494e205055424c4943204b45592d2d2d2d
 const sinon = require('sinon');
 global.Lightning = sinon.stub();
 global.WalletUnlocker = sinon.stub();
-sinon.stub(require('grpc'), 'load').returns({lnrpc: {
+sinon.stub(require('@grpc/grpc-js'), 'load').returns({lnrpc: {
   Lightning: global.Lightning,
   WalletUnlocker: global.WalletUnlocker
 }});
