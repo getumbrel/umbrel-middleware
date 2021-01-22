@@ -1,5 +1,5 @@
 /* eslint-disable camelcase, max-lines */
-var grpc = require('@grpc/grpc-js');
+const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 
 const diskService = require('services/disk');
