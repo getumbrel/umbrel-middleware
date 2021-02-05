@@ -17,6 +17,7 @@
     "big.js": "^5.2.2",
     "bitcoind-rpc": "^0.7.2",
     "body-parser": "^1.18.2",
+    "camelize-keys": "^1.0.0",
     "continuation-local-storage": "^3.2.1",
     "cors": "^2.8.5",
     "debug": "^2.6.1",
