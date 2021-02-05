@@ -106,8 +106,8 @@ async function changePassword(currentPassword, newPassword) {
   const newPasswordBuff = Buffer.from(newPassword, 'utf8');
 
   const rpcPayload = {
-    current_password: currentPasswordBuff,
-    new_password: newPasswordBuff,
+    currentPassword: currentPasswordBuff,
+    newPassword: newPasswordBuff,
   };
 
   const conn = await initializeRPCClient();
@@ -118,8 +118,8 @@ async function changePassword(currentPassword, newPassword) {
 function closeChannel(fundingTxId, index, force) {
   const rpcPayload = {
     channel_point: {
-      funding_txid_str: fundingTxId,
-      output_index: index
+      fundingTxidStr: fundingTxId,
+      outputIndex: index
     },
     force: force // eslint-disable-line object-shorthand
   };
@@ -158,7 +158,7 @@ function connectToPeer(pubKey, ip, port) {
 
 function decodePaymentRequest(paymentRequest) {
   const rpcPayload = {
-    pay_req: paymentRequest
+    payReq: paymentRequest
   };
 
   return initializeRPCClient()
@@ -177,7 +177,7 @@ async function estimateFee(address, amt, confTarget) {
 
   const rpcPayload = {
     AddrToAmount: addrToAmount,
-    target_conf: confTarget,
+    targetConf: confTarget,
   };
 
   const conn = await initializeRPCClient();
@@ -217,9 +217,9 @@ function getFeeReport() {
 
 function getForwardingEvents(startTime, endTime, indexOffset) {
   const rpcPayload = {
-    start_time: startTime,
-    end_time: endTime,
-    index_offset: indexOffset,
+    startTime: startTime,
+    endTime: endTime,
+    indexOffset: indexOffset,
   };
 
   return initializeRPCClient()
@@ -233,8 +233,8 @@ function getInfo() {
 
 function getNodeInfo(pubkey, includeChannels) {
   const rpcPayload = {
-    pub_key: pubkey,
-    include_channels: includeChannels
+    pubKey: pubkey,
+    includeChannels: includeChannels
   };
   return initializeRPCClient()
     .then(({ lightning }) => promiseify(lightning, lightning.GetNodeInfo, rpcPayload, 'get node information'));
@@ -291,9 +291,9 @@ function initWallet(options) {
   const passwordBuff = Buffer.from(options.password, 'utf8');
 
   const rpcPayload = {
-    wallet_password: passwordBuff,
-    cipher_seed_mnemonic: options.mnemonic,
-    recovery_window: DEFAULT_RECOVERY_WINDOW
+    walletPassword: passwordBuff,
+    cipherSeedMnemonic: options.mnemonic,
+    recoveryWindow: DEFAULT_RECOVERY_WINDOW
   };
 
   return initializeRPCClient().then(({ walletUnlocker, state }) => {
@@ -310,7 +310,7 @@ function initWallet(options) {
 function getInvoices() {
   const rpcPayload = {
     reversed: true, // Returns most recent
-    num_max_invoices: 100,
+    numMaxInvoices: 100,
   };
 
   return initializeRPCClient()
@@ -337,14 +337,14 @@ async function listUnspent() {
 
 function openChannel(pubKey, amt, satPerByte) {
   const rpcPayload = {
-    node_pubkey_string: pubKey,
-    local_funding_amount: amt,
+    nodePubkeyString: pubKey,
+    localFundingAmount: amt,
   };
 
   if (satPerByte) {
-    rpcPayload.sat_per_byte = satPerByte;
+    rpcPayload.satPerByte = satPerByte;
   } else {
-    rpcPayload.target_conf = 6;
+    rpcPayload.targetConf = 6;
   }
 
   return initializeRPCClient()
@@ -355,13 +355,13 @@ function sendCoins(addr, amt, satPerByte, sendAll) {
   const rpcPayload = {
     addr: addr, // eslint-disable-line object-shorthand
     amount: amt,
-    send_all: sendAll,
+    sendAll: sendAll,
   };
 
   if (satPerByte) {
-    rpcPayload.sat_per_byte = satPerByte;
+    rpcPayload.satPerByte = satPerByte;
   } else {
-    rpcPayload.target_conf = 6;
+    rpcPayload.targetConf = 6;
   }
 
   return initializeRPCClient()
@@ -370,7 +370,7 @@ function sendCoins(addr, amt, satPerByte, sendAll) {
 
 function sendPaymentSync(paymentRequest, amt) {
   const rpcPayload = {
-    payment_request: paymentRequest,
+    paymentRequest: paymentRequest,
     amt: amt, // eslint-disable-line object-shorthand
   };
 
@@ -390,7 +390,7 @@ function unlockWallet(password) {
   const passwordBuff = Buffer.from(password, 'utf8');
 
   const rpcPayload = {
-    wallet_password: passwordBuff
+    walletPassword: passwordBuff
   };
 
   // TODO how to determine if wallet is already unlocked?
@@ -401,17 +401,17 @@ function unlockWallet(password) {
 
 function updateChannelPolicy(global, fundingTxid, outputIndex, baseFeeMsat, feeRate, timeLockDelta) {
   const rpcPayload = {
-    base_fee_msat: baseFeeMsat,
-    fee_rate: feeRate,
-    time_lock_delta: timeLockDelta,
+    baseFeeMsat: baseFeeMsat,
+    feeRate: feeRate,
+    timeLockDelta: timeLockDelta,
   };
 
   if (global) {
     rpcPayload.global = global;
   } else {
     rpcPayload.chan_point = {
-      funding_txid_str: fundingTxid,
-      output_index: outputIndex,
+      fundingTxidStr: fundingTxid,
+      outputIndex: outputIndex,
     };
   }
 
