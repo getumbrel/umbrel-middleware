@@ -23,7 +23,7 @@ if (process.env.MACAROON_DIR) {
 }
 
 // TODO move this to volume
-const packageDefinition = protoLoader.loadSync('rpc.proto', {});
+const packageDefinition = protoLoader.loadSync(PROTO_FILE, {});
 const lnrpc = grpc.loadPackageDefinition(packageDefinition).lnrpc;
 
 const DEFAULT_RECOVERY_WINDOW = 250;
