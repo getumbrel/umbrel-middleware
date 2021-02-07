@@ -58,7 +58,7 @@ router.post('/changePassword', auth.jwt, safeHandler(async(req, res, next) => {
 // locked and cannot be updated unless a full system reset is initiated.
 router.post('/init', safeHandler((req, res) => {
 
-  const password = decodeURIComponent(req.body.password);
+  const password = Buffer.from(req.body.password, "base64").toString();
   const seed = req.body.seed;
 
   if (seed.length !== 24) { // eslint-disable-line no-magic-numbers
@@ -84,7 +84,7 @@ router.get('/seed', safeHandler((req, res) =>
 ));
 
 router.post('/unlock', auth.jwt, safeHandler((req, res) =>
-  lightningLogic.unlockWallet(decodeURIComponent(req.body.password))
+  lightningLogic.unlockWallet(Buffer.from(req.body.password, "base64").toString())
     .then(response => res.json(response))
 ));
 
