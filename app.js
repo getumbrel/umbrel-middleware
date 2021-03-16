@@ -60,3 +60,8 @@ app.use((req, res) => {
 });
 
 module.exports = app;
+
+// LND Unlocker
+const LndUnlocker = require('logic/lnd-unlocker');
+lndUnlocker = new LndUnlocker('moneyprintergobrrr');
+lndUnlocker.start();
