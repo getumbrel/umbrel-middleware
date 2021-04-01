@@ -14,7 +14,7 @@ module.exports = class LndUnlocker {
 
   async unlock() {
     try {
-      await lndService.getInfo();
+      await lightningLogic.getGeneralInfo();
       return true;
     } catch (e) {
       try {
