@@ -15,6 +15,9 @@ module.exports = class LndUnlocker {
   async unlock() {
     try {
       await lightningLogic.getGeneralInfo();
+      if (!this.unlocked) {
+        console.log('LndUnlocker: Wallet unlocked!');
+      }
       return true;
     } catch (e) {
       try {
