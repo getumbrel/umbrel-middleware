@@ -757,7 +757,7 @@ async function getStatus() {
     // is because of an encrypted wallet.
     if (error instanceof LndError) {
 
-      if (error.error && error.error.code === UNIMPLEMENTED_CODE) {
+      if (errorDueToLockedWallet(error)) {
 
         return {
           operational: true,
@@ -795,7 +795,7 @@ async function unlockWallet(password) {
       if (error instanceof LndError) {
 
         // wallet is already unlocked
-        if (error.error && error.error.code === UNIMPLEMENTED_CODE) {
+        if (errorDueToLockedWallet(error)) {
           return;
         }
       }
@@ -830,6 +830,24 @@ async function getNodeAlias(pubkey) {
 
 function updateChannelPolicy(global, fundingTxid, outputIndex, baseFeeMsat, feeRate, timeLockDelta) {
   return lndService.updateChannelPolicy(global, fundingTxid, outputIndex, baseFeeMsat, feeRate, timeLockDelta);
+}
+
+function errorDueToLockedWallet(error) {
+  if (!error.error) {
+    return false;
+  }
+
+  // For LND <= 0.12.1
+  if (error.error.code === UNIMPLEMENTED_CODE) {
+    return true;
+  }
+
+  // For LND > 0.12.1
+  if (error.error.details === "wallet locked, unlock it to enable full RPC access") {
+    return true;
+  }
+
+  return false;
 }
 
 module.exports = {
