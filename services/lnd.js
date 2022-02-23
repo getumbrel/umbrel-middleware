@@ -27,10 +27,6 @@ const lnrpcDescriptor = grpc.load(PROTO_FILE);
 const lnrpc = lnrpcDescriptor.lnrpc;
 
 const DEFAULT_RECOVERY_WINDOW = 250;
-const GRPC_OPTIONS = {
-  'grpc.max_receive_message_length': -1,
-  'grpc.max_send_message_length': -1,
-}
 
 // Initialize RPC client will attempt to connect to the lnd rpc with a tls.cert and admin.macaroon. If the wallet has
 // not bee created yet, then the client will only be initialized with the tls.cert. There may be times when lnd wallet
@@ -59,7 +55,7 @@ async function initializeRPCClient() {
         .catch(() => ({ credentials: sslCreds, state: 'WALLET_CREATION_ONLY' }));
     })
     .then(({ credentials, state }) => ({
-      lightning: new lnrpc.Lightning(LND_HOST + ':' + LND_PORT, credentials, GRPC_OPTIONS),
+      lightning: new lnrpc.Lightning(LND_HOST + ':' + LND_PORT, credentials),
       walletUnlocker: new lnrpc.WalletUnlocker(LND_HOST + ':' + LND_PORT, credentials),
       state: state // eslint-disable-line object-shorthand
     }));
@@ -261,8 +257,11 @@ function getClosedChannels() {
 
 // Returns a list of all outgoing payments.
 function getPayments() {
+  const rpcPayload = {
+    max_payments: 100,
+  };
   return initializeRPCClient()
-    .then(({ lightning }) => promiseify(lightning, lightning.ListPayments, {}, 'get payments'));
+    .then(({ lightning }) => promiseify(lightning, lightning.ListPayments, rpcPayload, 'get payments'));
 }
 
 // Returns a list of all lnd's currently connected and active peers.
