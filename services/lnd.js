@@ -257,8 +257,13 @@ function getClosedChannels() {
 
 // Returns a list of all outgoing payments.
 function getPayments() {
+  // Limit to 1k to prevent crazy response sizes
+  // https://github.com/getumbrel/umbrel/issues/1245
+  const rpcPayload = {
+    max_payments: 1000,
+  };
   return initializeRPCClient()
-    .then(({ lightning }) => promiseify(lightning, lightning.ListPayments, {}, 'get payments'));
+    .then(({ lightning }) => promiseify(lightning, lightning.ListPayments, rpcPayload, 'get payments'));
 }
 
 // Returns a list of all lnd's currently connected and active peers.
